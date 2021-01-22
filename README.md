@@ -1,5 +1,4 @@
-# Interaction Network
-
+# Interaction Network for Learning about Objects, Relations and Physics
 
 
 
