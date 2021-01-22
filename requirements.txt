@@ -1,13 +1,7 @@
 jupyter
 numpy
-pandas
-requests
-opencv-python
-scikit-image
-seaborn
 matplotlib
-tqdm
-annoy
 torch
-torchvision
-scikit-learn
+multiprocessing
+tqdm
+progressbar
