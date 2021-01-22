@@ -214,6 +214,8 @@ def bp(IN, init_state):
 #losses = []
 
 interaction_network = InteractionNetwork(n_objects, object_dim, n_relations, relation_dim, effect_dim)
+interaction_network.load_state_dict(torch.load('./weights/trained_weights-parallel'))
+interaction_network.eval()
 
 if USE_CUDA:
     interaction_network = interaction_network.cuda()
@@ -222,6 +224,7 @@ optimizer = optim.Adam(interaction_network.parameters())
 criterion = nn.MSELoss()
 
 if __name__ == '__main__':
+    '''
     parent_conn, child_conn = Pipe()
     p_gen = Process(target = physics_gen, args = (child_conn,))
     #print(interaction_network.relational_model.layers[2].weight)
@@ -264,14 +267,14 @@ if __name__ == '__main__':
     #train.close()
     #print(interaction_network.relational_model.layers[2].weight)
 
-    torch.save(interaction_network.state_dict(), './trained_weights-parallel')
-
+    torch.save(interaction_network.state_dict(), './weights/trained_weights-parallel')
     plt.plot(losses)
     plt.show()
+    '''
     data = gen(n_objects, True)
-    ani = make_video(data, 'theoretical.mp4')
+    ani = make_video(data, './results/theoretical.mp4')
     pred = bp(interaction_network, np.array([data[0, :, :]]))
     print(pred.shape)
     pred = pred.reshape(-1, 3, 5)
     print(pred.shape)
-    ani2 = make_video(pred, 'predicted.mp4')
+    ani2 = make_video(pred, './results/predicted.mp4')

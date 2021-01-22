@@ -127,23 +127,29 @@ def make_video(xy,filename):
 '''
     
 def make_video(xy, filename):
+    plt.style.use('dark_background')
     fig, ax = plt.subplots()
     xdata, ydata = [], []
     ln, = plt.plot([], [], 'ro', animated = True)
-    
+    ax.set_axis_off()
+
     def init():
-        ax.set_xlim(-200, 200)
-        ax.set_ylim(-200, 200)
+        ax.set_xlim(-100, 100)
+        ax.set_ylim(-100, 100)
         return ln, 
     
     def update(frame):
         xdata, ydata = [], []
         for j in range(len(xy[0])):
-            xdata.append(xy[frame, j, 1])
-            ydata.append(xy[frame, j, 2])
+            for k in range(0, frame):
+              if frame - k >= 0:
+                xdata.append(xy[frame - k, j, 1])
+                ydata.append(xy[frame - k, j, 2])
+              else:
+                break
         ln.set_data(xdata, ydata)
         return ln,
-    ani = FuncAnimation(fig, update, frames = len(xy), init_func = init, blit = True)
+    ani = FuncAnimation(fig, update, frames = len(xy), init_func = init, blit = False)
     ani.save(filename)
     return ani
 
